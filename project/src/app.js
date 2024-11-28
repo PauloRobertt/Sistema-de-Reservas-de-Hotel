@@ -1,11 +1,9 @@
 import express from 'express';
+import router from './router.js';
 
 const app = express();
 
 app.use(express.json());
-
-app.get('/', (req, res) => {res.send(console.log('Teste'))})
-
-app.listen(8080,(()=>{console.log("Servidor Iniciado na porta 8080")}))
+app.use(router);
 
 export default app;
