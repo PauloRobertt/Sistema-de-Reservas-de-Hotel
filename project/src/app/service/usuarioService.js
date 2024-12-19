@@ -1,56 +1,78 @@
 import repository from "../repository/usuarioRepository.js";
 
-class usuarioService{
-    async findAll(){
+class usuarioService {
+    async findAll() {
         return await repository.findAll();
     }
 
-    async findById(id){
-        if(!id){
+    async findById(id) {
+        if (!id) {
             throw new Error('O ID é obrigatorio!');
         }
 
-        try{
+        try {
             const user = await repository.findById(id);
-            if(!user){
+            if (!user) {
                 throw new Error('Usuario não encontrado!');
             }
 
             return user;
         }
-        catch(error) {
+        catch (error) {
             throw new Error(`Erro ao realizar a busca do usuario: ${error}`);
         }
     }
 
-    async createUser(user){
-        try{
-            const {nome, email, senha} = user;
+    async createUser(user) {
+        try {
+            const { nome, email, senha } = user;
 
-            if(!nome || !email || !senha){
+            if (!nome || !email || !senha) {
                 throw new Error('Todos os campos são obrigatórios!');
             }
-    
+
+            if (senha.length < 8 || senha.length > 32) {
+                throw new Error('A senha deve ter no mínimo 8 caracteres e no maximo 32!');
+            }
+
+            if (!senha.match(/[a-z]/g) || !senha.match(/[A-Z]/g) || !senha.match(/[\W|_]/g)) {
+                throw new Error('A senha deve conter letras maiusculas, minusculas e caracteres especiais');
+            }
+
             return await repository.createUser(user);
         }
-        catch(error){
+        catch (error) {
             throw new Error(`Erro ao criar o usuario: ${error}`);
         }
     }
 
-    async editUser(id, editUser){
-        try{
+    async editUser(id, editUser) {
+        try {
             return await repository.editUser(id, editUser);
         }
-        catch(error){
+        catch (error) {
             throw new Error(`Erro ao editar o usuario: ${error}`);
         }
     }
 
-    async deleteUser(id){
-        return await repository.deleteUser(id);
+    async deleteUser(id) {
+        if (!id) {
+            throw new Error('O ID é obrigatorio!');
+        }
+
+        try {
+            const user = await repository.findById(id);
+            if (!user) {
+                throw new Error('Usuario não encontrado!');
+            }
+
+            return await repository.deleteUser(id);
+        }
+        catch (error) {
+            throw new Error(`Erro ao realizar a deleção do usuario: ${error}`);
+        }
     }
-    
+
 }
 
 export default new usuarioService();
