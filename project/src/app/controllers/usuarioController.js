@@ -9,7 +9,7 @@ class usuarioController {
         }
         catch (error) {
             console.error(`Ocorreu um erro ao realizar a busca dos usuarios`, error);
-            return res.status(500);
+            return res.status(500).json({error: 'Erro ao buscar usuario!'});
         }
     }
 
@@ -20,7 +20,7 @@ class usuarioController {
         }
         catch (error) {
             console.error(`Ocorreu um erro ao realizar a busca pelo usuario`, error);
-            return res.status(500);
+            return res.status(500).json({error: 'Erro ao buscar usuario por id!'});
         }
     }
 
@@ -42,7 +42,7 @@ class usuarioController {
         }
         catch (error) {
             console.error(`Ocorreu um erro ao realizar a atualização do usuario`, error);
-            return res.status(500);
+            return res.status(500).json({error: 'Erro ao atualizar usuario!'});
         }
     }
 
@@ -53,7 +53,7 @@ class usuarioController {
         }
         catch (error) {
             console.error(`Ocorreu um erro ao realizar a exclução do usuario`, error);
-            return res.status(500);
+            return res.status(500).json({error: 'Erro ao deletar usuario!'});
         }
     }
 }

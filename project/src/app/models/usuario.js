@@ -17,7 +17,7 @@ const usuario = database.define('usuario', {
         allowNull: false
     },
     senha:{
-        type: DataTypes.STRING(50),
+        type: DataTypes.STRING(32),
         allowNull: false
     },
     tipo:{
