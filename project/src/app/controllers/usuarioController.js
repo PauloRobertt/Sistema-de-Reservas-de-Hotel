@@ -1,29 +1,60 @@
-import repository from '../repository/usuarioRepository.js';
+import service from "../service/usuarioService.js";
 
-class usuarioController{
-    async findAll(req, res){
-        const usuarios = await repository.findAll();
-        return res.json(usuarios);
+class usuarioController {
+
+    async findAll(req, res) {
+        try {
+            const result = await service.findAll();
+            return res.json(result);
+        }
+        catch (error) {
+            console.error(`Ocorreu um erro ao realizar a busca dos usuarios`, error);
+            return res.status(500);
+        }
     }
 
-    async findById(req, res){
-        const usuarios = await repository.findById(req.params.id);
-        return res.json(usuarios);
+    async findById(req, res) {
+        try {
+            const result = await service.findById(req.params.id);
+            return res.json(result);
+        }
+        catch (error) {
+            console.error(`Ocorreu um erro ao realizar a busca pelo usuario`, error);
+            return res.status(500);
+        }
     }
 
-    async createUser(req, res){
-        const newUser = await repository.create(req.body);
-        return res.json(newUser);
+    async createUser(req, res) {
+        try {
+            const result = await service.createUser(req.body);
+            return res.status(200).json(result);
+        }
+        catch (error) {
+            console.error(`Ocorreu um erro ao realizar a criação dos usuarios`, error);
+            return res.status(500).json({error: 'Erro ao criar usuario!'});
+        }
     }
 
-    async editUser(req, res){
-        const editUser = await repository.editUser(req.body, req.params.id);
-        return res.json(editUser);
+    async editUser(req, res) {
+        try {
+            const result = await service.editUser(req.params.id, req.body);
+            return res.json(result);
+        }
+        catch (error) {
+            console.error(`Ocorreu um erro ao realizar a atualização do usuario`, error);
+            return res.status(500);
+        }
     }
 
-    async deleteUser(req, res){
-        const user = await repository.delete(req.params.id);
-        return res.json(user);
+    async deleteUser(req, res) {
+        try {
+            const result = await service.deleteUser(req.params.id);
+            return res.json(result);
+        }
+        catch (error) {
+            console.error(`Ocorreu um erro ao realizar a exclução do usuario`, error);
+            return res.status(500);
+        }
     }
 }
 

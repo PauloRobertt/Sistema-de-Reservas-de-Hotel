@@ -1,35 +1,39 @@
-import connect from '../database/db.js';
+import usuario from '../models/usuario.js';
 
 class usuarioRepository{
 
     async findAll(){
-        const client = await connect();
-        const result = await client.query('SELECT * FROM usuarios');
-        return result.rows;
+        return await usuario.findAll();
     }
 
     async findById(id){
-        const client = await connect();
-        const result = await client.query('SELECT * FROM usuarios WHERE id = $1', [id]);
-        return result.rows;
+        return await usuario.findByPk(id);
     }
 
-    async create(usuario){
-        const client = await connect();
-        const result = await client.query('insert into usuarios(nome, email, senha, tipo) values($1, $2, $3, $4)', [usuario.nome, usuario.email, usuario.senha, usuario.tipo]);
-        return result.rows;
+    async createUser(user){
+        const {nome, email, senha, tipo} = user;
+        return await usuario.create({nome, email, senha, tipo});
     }
 
-    async editUser(usuario, id){
-        const client = await connect();
-        const result = await client.query('UPDATE usuarios SET nome=$1, email=$2, senha=$3, tipo=$4 WHERE id=$5', [usuario.nome, usuario.email, usuario.senha, usuario.tipo, id]);
-        return result.rows;
+    async editUser(id, editUser){
+        const {nome, email, senha, tipo} = editUser;
+        const usuarioEditado = await usuario.findByPk(id);
+
+        if(!usuarioEditado){
+            throw new Error("Usuario não encontrado!");
+        }
+
+        return await usuarioEditado.update({nome, email, senha, tipo});
     }
 
-    async delete(id){
-        const client = await connect();
-        const result = await client.query('delete from usuarios where id = $1', [id]);
-        return result.rows;    
+    async deleteUser(id){
+        const UserDelete = await usuario.findByPk(id);
+
+        if(!UserDelete){
+            throw new Error("Usuario não encontrado!")
+        }
+
+        return await UserDelete.destroy();   
     }
 }
 
