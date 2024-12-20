@@ -27,11 +27,10 @@ class usuarioController {
     async createUser(req, res) {
         try {
             const result = await service.createUser(req.body);
-            return res.status(200).json(result);
+            return res.status(200).json(result, {message: 'Usuario criado com sucesso!'});
         }
         catch (error) {
-            console.error(`Ocorreu um erro ao realizar a criação dos usuarios`, error);
-            return res.status(500).json({error: 'Erro ao criar usuario!'});
+            return res.status(500).json({message: `${error.message}`});
         }
     }
 

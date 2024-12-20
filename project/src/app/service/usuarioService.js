@@ -27,6 +27,8 @@ class usuarioService {
         try {
             const { nome, email, senha } = user;
 
+            const usuarios = await repository.findAll();
+
             if (!nome || !email || !senha) {
                 throw new Error('Todos os campos são obrigatórios!');
             }
@@ -39,10 +41,14 @@ class usuarioService {
                 throw new Error('A senha deve conter letras maiusculas, minusculas e caracteres especiais');
             }
 
+            if(email == usuarios.map((value)=>{return value.email;})){
+                throw new Error('Email já utilizado!');
+            }
+
             return await repository.createUser(user);
         }
         catch (error) {
-            throw new Error(`Erro ao criar o usuario: ${error}`);
+            throw new Error (error.message);
         }
     }
 
