@@ -2,6 +2,12 @@ import usuario from '../models/usuario.js';
 
 class usuarioRepository{
 
+    async findByEmail(email){
+        const result = await usuario.findOne({where: {email: email}});
+
+        return result;
+    }
+
     async findAll(){
         return await usuario.findAll();
     }
