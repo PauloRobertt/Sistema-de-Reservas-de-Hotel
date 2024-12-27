@@ -1,6 +1,6 @@
 import express from 'express';
-import usuarioController from './app/controllers/usuarioController.js';
-import authenticationController from './app/controllers/authenticationController.js';
+import usuarioController from '../controllers/usuarioController.js';
+import authenticationController from '../controllers/authenticationController.js';
 const router = express.Router();
 
 //Rotas CRUD Usuario
