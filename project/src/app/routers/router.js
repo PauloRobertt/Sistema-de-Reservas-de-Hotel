@@ -1,10 +1,12 @@
 import express from 'express';
 import usuarioController from '../controllers/usuarioController.js';
 import authenticationController from '../controllers/authenticationController.js';
+import TokenService from '../security/TokenService.js';
+
 const router = express.Router();
 
 //Rotas CRUD Usuario
-router.get('/usuario', usuarioController.findAll);
+router.get('/usuario', TokenService.checkToken, usuarioController.findAll);
 router.get('/usuario/:id', usuarioController.findById);
 router.post('/usuario', usuarioController.createUser);
 router.put('/usuario/:id', usuarioController.editUser);
