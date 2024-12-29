@@ -1,19 +1,18 @@
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 import repository from '../repository/usuarioRepository.js';
+import TokenService from '../security/TokenService.js';
 
 class authenticationService {
-    
+
     async login(user) {
         try {
             const { email, senha } = user;
             const usuarioExistente = await repository.findByEmail(email);
-            const acesso = 'Autorizado';
 
             if (!email || !senha) {
                 throw new Error('Todos os campos são obrigatórios!');
             }
-            
+
             if (!usuarioExistente) {
                 throw new Error('Email não existe!')
             }
@@ -21,13 +20,15 @@ class authenticationService {
             if (senha.length < 8 || senha.length > 32) {
                 throw new Error('A senha deve ter no mínimo 8 caracteres e no maximo 32!');
             }
-            
+
             const passwordCompare = await bcrypt.compare(senha, usuarioExistente.senha);
             if (usuarioExistente.email !== email || !passwordCompare) {
                 throw new Error('Email ou senha inválidos!')
             }
 
-            return acesso;
+            const token = TokenService.generateToken(usuarioExistente);
+
+            return token;
 
         } catch (error) {
             throw new Error(error.message);
