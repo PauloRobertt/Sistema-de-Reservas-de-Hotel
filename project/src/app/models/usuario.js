@@ -20,8 +20,8 @@ const usuario = database.define('usuario', {
         type: DataTypes.STRING(60),
         allowNull: false
     },
-    tipo:{
-        type: DataTypes.STRING(40),
+    role:{
+        type: DataTypes.STRING(10),
         allowNull: false
     }
 })
