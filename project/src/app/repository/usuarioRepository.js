@@ -17,19 +17,19 @@ class usuarioRepository{
     }
 
     async createUser(user){
-        const {nome, email, senha, tipo} = user;
-        return await usuario.create({nome, email, senha, tipo});
+        const {nome, email, senha, role} = user;
+        return await usuario.create({nome, email, senha, role});
     }
 
     async editUser(id, editUser){
-        const {nome, email, senha, tipo} = editUser;
+        const {nome, email, senha, role} = editUser;
         const usuarioEditado = await usuario.findByPk(id);
 
         if(!usuarioEditado){
             throw new Error("Usuario não encontrado!");
         }
 
-        return await usuarioEditado.update({nome, email, senha, tipo});
+        return await usuarioEditado.update({nome, email, senha, role});
     }
 
     async deleteUser(id){
