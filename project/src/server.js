@@ -4,7 +4,7 @@ import database from './app/database/db.js'
 
 const port = process.env.PORT || 3000;
 
-database.sync({ force: false })
+database.sync({ alter: true })
     .then(() => {
         console.log('Banco de dados sincronizado!')
 
