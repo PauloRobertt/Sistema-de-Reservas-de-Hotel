@@ -37,7 +37,7 @@ class authenticationService {
 
     async register(user) {
         try {
-            const { nome, email, senha, tipo } = user;
+            const { nome, email, senha, role } = user;
 
             const salt = await bcrypt.genSalt(10);
             const senhaHash = await bcrypt.hash(senha, salt);
@@ -64,7 +64,7 @@ class authenticationService {
                 nome: nome,
                 email: email,
                 senha: senhaHash,
-                tipo: tipo
+                role: role
             });
         }
         catch (error) {
