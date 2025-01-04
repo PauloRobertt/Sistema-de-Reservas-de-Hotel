@@ -1,9 +1,12 @@
 import Input from '../form/Input.js';
 import Button from '../form/SubmitButton.js';
 import { useState } from 'react';
+import { useNavigate } from "react-router";
 
 export default function Register() {
     const [usuario, setUsuario] = useState({});
+
+    const navegate = useNavigate();
 
     const submit = (e) => {
         e.preventDefault();
@@ -12,10 +15,6 @@ export default function Register() {
 
     function handleEmail(e) {
         setUsuario({ ...usuario, [e.target.name]: e.target.value });
-    }
-
-    function teste(usuario){
-        console.log(usuario)
     }
 
     function Register(usuario) {
@@ -28,7 +27,10 @@ export default function Register() {
             body: JSON.stringify(usuario)
         })
             .then((res) => res.json())
-            .then((data) => { console.log(data) })
+            .then((data) => {
+                console.log(data)
+                navegate("/login", { state: { message: 'Usuario criado com sucesso!' } })
+            })
             .catch((error) => { console.log(error) })
     }
 
