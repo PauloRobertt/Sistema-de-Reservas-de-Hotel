@@ -5,6 +5,8 @@ import Input from '../form/Input.js';
 import Button from '../form/SubmitButton.js';
 import LinkButton from '../layout/LinkButton.js';
 
+import { useNavigate } from "react-router";
+
 //imagem
 import photo from '../../img/photo_form.jpg';
 
@@ -36,7 +38,10 @@ export default function Login() {
             body: JSON.stringify(usuario)
         })
             .then((res) => res.json())
-            .then((data) => { console.log(data) })
+            .then((data) => {
+                const token = data.token
+                localStorage.setItem('token', token);
+            })
             .catch((error) => { console.log(error) })
     }
 
@@ -71,6 +76,7 @@ export default function Login() {
                         placeholder='Digite sua senha'
                     />
 
+
                     <LinkButton
                         caminho='/register'
                         text='Esqueceu sua senha?'
@@ -91,7 +97,7 @@ export default function Login() {
                 </p>
             </div>
             <div className={styles.containerImagem}>
-                <img src={photo} alt=''/>
+                <img src={photo} alt='' />
             </div>
         </div>
     );
